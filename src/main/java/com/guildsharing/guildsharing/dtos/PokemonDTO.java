@@ -12,9 +12,9 @@ import java.util.Date;
 @Data
 @BirthdayAge
 public class PokemonDTO {
-    @NotNull
+    @NotNull(message = "Name can't be null")
     private String name;
-    @NotNull @PositiveOrZero
+    @NotNull(message = "Age can't be null") @PositiveOrZero(message = "Age must be positive or zero")
     private Integer age;
-    @NotNull @PastOrPresent private Date birthday;
+    @NotNull(message = "Birthday can't be null") @PastOrPresent(message = "Birthday can't be in the future") private Date birthday;
 }

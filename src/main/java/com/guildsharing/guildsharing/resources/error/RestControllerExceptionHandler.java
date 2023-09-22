@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.buf.StringUtils;
+import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,18 +24,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RestControllerExceptionHandler {
 
+    private final ProblemFactory problemFactory;
+
     @ExceptionHandler({ConstraintViolationException.class})
-    public ResponseEntity<String> handleInternalServerError(
+    public ResponseEntity<Problem> handleInternalServerError(
             ConstraintViolationException exception) {
-        return ResponseEntity.badRequest().body(StringUtils.join(exception.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).collect(Collectors.toSet()), ','));
+        InvalidInputException invalidInputException = new InvalidInputException("Invalid input exception", exception);
+       return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<String> handleInternalServerError(
+    public ResponseEntity<Problem> handleInternalServerError(
             MethodArgumentNotValidException exception) {
-        BindingResult result = exception.getBindingResult();
-        List<FieldError> fieldErrors = result.getFieldErrors();
-        return ResponseEntity.badRequest().body(StringUtils.join(fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.toSet()), ','));
+        InvalidInputException invalidInputException = new InvalidInputException("Invalid input exception", exception);
+        return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST);
     }
 
 }

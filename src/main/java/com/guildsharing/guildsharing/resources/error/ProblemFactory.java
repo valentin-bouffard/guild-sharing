@@ -16,13 +16,13 @@ public class ProblemFactory {
     public final ResponseEntity<Problem> createError(
             ICustomException customException, HttpStatus status) {
         final Problem problem;
-        log.error(customException.getMessage(), customException);
+        log.error(customException.getLogMessage(), customException);
         problem =
                 new Problem(
                         null,
-                        customException.getMessage(),
+                        customException.getTitle(),
                         status.value(),
-                        customException.getMessage(),
+                        customException.getDetail(),
                         null);
         return buildResponseEntity(problem, status);
     }
@@ -30,13 +30,13 @@ public class ProblemFactory {
     public final ResponseEntity<CustomProblem> createCustomError(
             ICustomException customException, HttpStatus status, List<FieldError> fieldErrors) {
         final CustomProblem problem;
-        log.error(customException.getMessage(), customException);
+        log.error(customException.getLogMessage(), customException);
         problem =
                 new CustomProblem(
                         null,
-                        customException.getMessage(),
+                        customException.getTitle(),
                         status.value(),
-                        customException.getMessage(),
+                        customException.getDetail(),
                         null, fieldErrors);
         return buildResponseEntity(problem, status);
     }

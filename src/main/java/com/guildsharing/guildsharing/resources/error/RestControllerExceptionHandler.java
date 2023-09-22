@@ -1,10 +1,9 @@
 package com.guildsharing.guildsharing.resources.error;
 
-import jakarta.validation.ConstraintViolation;
+import com.guildsharing.guildsharing.resources.error.business.InvalidInputException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @ControllerAdvice
@@ -30,7 +28,7 @@ public class RestControllerExceptionHandler {
     public ResponseEntity<Problem> handleInternalServerError(
             ConstraintViolationException exception) {
         InvalidInputException invalidInputException = new InvalidInputException(exception.getMessage(), exception);
-       return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST);
+       return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST, exception.getConstraintViolations());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

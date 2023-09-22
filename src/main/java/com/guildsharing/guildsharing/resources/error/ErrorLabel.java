@@ -17,6 +17,6 @@ public class ErrorLabel {
     public static final ErrorLabel INVALID_INPUT =
             new ErrorLabel(
                     INVALID_INPUT_KEY,
-                    "Input is invalid");
+                    "Invalid input");
 }
 

@@ -28,15 +28,15 @@ public class ProblemFactory {
     }
 
     public final ResponseEntity<CustomProblem> createCustomError(
-            ICustomException linqueoException, HttpStatus status, List<FieldError> fieldErrors) {
+            ICustomException customException, HttpStatus status, List<FieldError> fieldErrors) {
         final CustomProblem problem;
-        log.error(linqueoException.getMessage(), linqueoException);
+        log.error(customException.getMessage(), customException);
         problem =
                 new CustomProblem(
                         null,
-                        linqueoException.getMessage(),
+                        customException.getMessage(),
                         status.value(),
-                        linqueoException.getMessage(),
+                        customException.getMessage(),
                         null, fieldErrors);
         return buildResponseEntity(problem, status);
     }

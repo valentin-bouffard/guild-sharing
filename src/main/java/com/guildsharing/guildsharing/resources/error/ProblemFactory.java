@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ProblemFactory {
     public final ResponseEntity<Problem> createError(
-            ICustomException linqueoException, HttpStatus status) {
+            ICustomException customException, HttpStatus status) {
         final Problem problem;
-        log.error(linqueoException.getMessage(), linqueoException);
+        log.error(customException.getMessage(), customException);
         problem =
                 new Problem(
                         null,
-                        linqueoException.getMessage(),
+                        customException.getMessage(),
                         status.value(),
-                        linqueoException.getMessage(),
+                        customException.getMessage(),
                         null);
         return buildResponseEntity(problem, status);
     }

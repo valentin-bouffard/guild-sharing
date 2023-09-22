@@ -2,6 +2,9 @@ package com.guildsharing.guildsharing.dtos;
 
 import com.guildsharing.guildsharing.validators.BirthdayAge;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,6 +14,7 @@ import java.util.Date;
 public class PokemonDTO {
     @NotNull
     private String name;
-    @NotNull private Integer age;
-    @NotNull private Date birthday;
+    @NotNull @PositiveOrZero
+    private Integer age;
+    @NotNull @PastOrPresent private Date birthday;
 }

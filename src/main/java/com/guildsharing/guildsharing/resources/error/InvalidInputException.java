@@ -16,12 +16,12 @@ public class InvalidInputException extends RuntimeException implements ICustomEx
     }
 
     @Override
-    public String getDetail() {
+    public String getTitle() {
         return LABEL.getMessage();
     }
 
     @Override
-    public String getTitle() {
+    public String getTranslationKey() {
         return LABEL.getErrorKey();
     }
 }

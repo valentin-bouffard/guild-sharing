@@ -18,12 +18,12 @@ public class ProblemFactory {
         final Problem problem;
         log.error(customException.getLogMessage(), customException);
         problem =
-                new Problem(
+                new CustomProblem(
                         null,
                         customException.getTitle(),
                         status.value(),
-                        customException.getDetail(),
-                        null);
+                        null,
+                        null, customException.getTranslationKey());
         return buildResponseEntity(problem, status);
     }
 
@@ -36,8 +36,8 @@ public class ProblemFactory {
                         null,
                         customException.getTitle(),
                         status.value(),
-                        customException.getDetail(),
-                        null, fieldErrors);
+                        null,
+                        null, customException.getTranslationKey(), fieldErrors);
         return buildResponseEntity(problem, status);
     }
 

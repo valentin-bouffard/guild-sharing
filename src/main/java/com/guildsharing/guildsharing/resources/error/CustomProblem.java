@@ -15,9 +15,15 @@ import java.util.List;
 public class CustomProblem extends Problem {
     @JsonIgnoreProperties({"codes", "arguments", "objectName", "rejectedValue", "bindingFailure", "code"})
     private List<FieldError> fieldErrors;
+    private String translationKey;
 
-    public CustomProblem(URI type, String title, int status, String detail, URI instance, List<FieldError> fieldErrors) {
+    public CustomProblem(URI type, String title, int status, String detail, URI instance, String translationKey) {
+        super(type, title, status, detail, instance);
+        this.translationKey = translationKey;
+    }
+    public CustomProblem(URI type, String title, int status, String detail, URI instance, String translationKey, List<FieldError> fieldErrors) {
         super(type, title, status, detail, instance);
         this.fieldErrors = fieldErrors;
+        this.translationKey = translationKey;
     }
 }

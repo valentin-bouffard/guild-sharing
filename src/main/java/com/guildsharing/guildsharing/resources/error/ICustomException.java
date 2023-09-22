@@ -4,8 +4,8 @@ public interface ICustomException {
 
     String getLogMessage();
 
-    String getDetail();
-
     String getTitle();
+
+    String getTranslationKey();
 
 }

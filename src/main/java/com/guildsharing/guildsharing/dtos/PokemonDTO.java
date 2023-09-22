@@ -1,14 +1,14 @@
 package com.guildsharing.guildsharing.dtos;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.time.Instant;
 import java.util.Date;
 
 @Data
 public class PokemonDTO {
+    @NotNull
     private String name;
-    private Integer age;
-    private Date birthday;
-
+    @NotNull private Integer age;
+    @NotNull private Date birthday;
 }

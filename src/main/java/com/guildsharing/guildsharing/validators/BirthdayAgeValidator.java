@@ -13,6 +13,12 @@ public class BirthdayAgeValidator implements ConstraintValidator<BirthdayAge, Po
         if (null == pokemonDTO) {
             return true;
         }
+        if (null == pokemonDTO.getAge()) {
+            return true;
+        }
+        if (null == pokemonDTO.getBirthday()) {
+            return true;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(pokemonDTO.getBirthday());
         return calendar.get(Calendar.YEAR) == calculateBirthday(pokemonDTO);

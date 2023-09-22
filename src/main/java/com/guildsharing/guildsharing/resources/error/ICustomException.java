@@ -4,4 +4,6 @@ public interface ICustomException {
 
     String getMessage();
 
+    String getDetail();
+
 }

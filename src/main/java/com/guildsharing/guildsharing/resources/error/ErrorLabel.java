@@ -18,5 +18,14 @@ public class ErrorLabel {
             new ErrorLabel(
                     INVALID_INPUT_KEY,
                     "Invalid input");
+
+
+    public static final String PIKACHU_NOT_FOUND_KEY = "pikachu-not-found";
+    public static final ErrorLabel PIKACHU_NOT_FOUND =
+            new ErrorLabel(
+                    PIKACHU_NOT_FOUND_KEY,
+                    "Pikachu has not been found");
+
+
 }
 

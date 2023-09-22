@@ -23,6 +23,11 @@ public class CustomProblem extends Problem {
         super(URI.create(""), title, status, detail, URI.create(""));
         this.translationKey = translationKey;
     }
+
+    public CustomProblem(String title, int status, String translationKey) {
+        super(URI.create(""), title, status, "", URI.create(""));
+        this.translationKey = translationKey;
+    }
     public CustomProblem(String title, int status, String detail, String translationKey, List<FieldError> fieldErrors) {
         super(URI.create(""), title, status, detail, URI.create(""));
         this.fieldErrors = fieldErrors;

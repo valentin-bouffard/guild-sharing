@@ -3,7 +3,6 @@ package com.guildsharing.guildsharing.resources.error;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.buf.StringUtils;
-import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +42,12 @@ public class ProblemFactory {
 
     private <T> ResponseEntity<T> buildResponseEntity(T problem, HttpStatus status) {
         return ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(problem);
+    }
+
+    public <T extends ICustomException> ResponseEntity<CustomProblem> createCustomError(T exception, HttpStatus status) {
+        logErrorAndException(exception);
+        CustomProblem problem = new CustomProblem(exception.getTitle(), status.value(),
+                exception.getTranslationKey());
+        return buildResponseEntity(problem, status);
     }
 }

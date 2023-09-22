@@ -16,7 +16,7 @@ public class PokemonController {
 
     private final PokemonService pokemonService;
 
-    @PostMapping("api/pokemon")
+    @PostMapping("api/pokemons")
     public ResponseEntity<Void> getPokemon(@Valid @RequestBody PokemonDTO pokemonDTO) {
         pokemonService.processPokemon(pokemonDTO);
         return ResponseEntity.ok().build();

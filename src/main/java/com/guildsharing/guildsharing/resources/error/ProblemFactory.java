@@ -16,28 +16,28 @@ public class ProblemFactory {
     public final ResponseEntity<Problem> createError(
             ICustomException customException, HttpStatus status) {
         final Problem problem;
-        log.error(customException.getMessage(), customException);
+        log.error(customException.getLogMessage(), customException);
         problem =
-                new Problem(
+                new CustomProblem(
                         null,
-                        customException.getMessage(),
+                        customException.getTitle(),
                         status.value(),
-                        customException.getMessage(),
-                        null);
+                        null,
+                        null, customException.getTranslationKey());
         return buildResponseEntity(problem, status);
     }
 
     public final ResponseEntity<CustomProblem> createCustomError(
             ICustomException customException, HttpStatus status, List<FieldError> fieldErrors) {
         final CustomProblem problem;
-        log.error(customException.getMessage(), customException);
+        log.error(customException.getLogMessage(), customException);
         problem =
                 new CustomProblem(
                         null,
-                        customException.getMessage(),
+                        customException.getTitle(),
                         status.value(),
-                        customException.getMessage(),
-                        null, fieldErrors);
+                        null,
+                        null, customException.getTranslationKey(), fieldErrors);
         return buildResponseEntity(problem, status);
     }
 

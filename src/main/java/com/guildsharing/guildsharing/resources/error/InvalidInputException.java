@@ -1,29 +1,27 @@
 package com.guildsharing.guildsharing.resources.error;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import java.util.List;
-import java.util.Set;
-
 public class InvalidInputException extends RuntimeException implements ICustomException {
-    private final String message;
-    private final String detail;
 
-    public InvalidInputException(String message, String detail, Throwable cause) {
+    private static final ErrorLabel LABEL = ErrorLabel.INVALID_INPUT;
+
+    private final String logMessage;
+
+    public InvalidInputException(String logMessage, Throwable cause) {
         super(cause);
-        this.detail = detail;
-        this.message = message;
+        this.logMessage = logMessage;
     }
     @Override
-    public String getMessage() {
-        return message;
+    public String getLogMessage() {
+        return logMessage;
     }
 
     @Override
-    public String getDetail() {
-        return detail;
+    public String getTitle() {
+        return LABEL.getMessage();
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return LABEL.getErrorKey();
     }
 }

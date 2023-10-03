@@ -2,8 +2,10 @@ package com.guildsharing.guildsharing.resources.error;
 
 public interface ICustomException {
 
-    String getMessage();
+    String getLogMessage();
 
-    String getDetail();
+    String getTitle();
+
+    String getTranslationKey();
 
 }

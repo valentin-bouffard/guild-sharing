@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Name {
 
-  String message() default "Name doesn't match";
+  String message() default "Names don't match";
 
   Class<?>[] groups() default {};
 

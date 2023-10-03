@@ -1,11 +1,11 @@
 package com.guildsharing.guildsharing.resources.error;
 
-import jakarta.validation.ConstraintViolation;
+import com.guildsharing.guildsharing.resources.error.business.CustomBusinessException;
+import com.guildsharing.guildsharing.resources.error.business.InvalidInputException;
+import com.guildsharing.guildsharing.resources.error.business.PikachuNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.StringUtils;
-import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @ControllerAdvice
@@ -27,10 +26,10 @@ public class RestControllerExceptionHandler {
     private final ProblemFactory problemFactory;
 
     @ExceptionHandler({ConstraintViolationException.class})
-    public ResponseEntity<Problem> handleInternalServerError(
+    public ResponseEntity<CustomProblem> handleInternalServerError(
             ConstraintViolationException exception) {
         InvalidInputException invalidInputException = new InvalidInputException(exception.getMessage(), exception);
-       return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST);
+       return problemFactory.createCustomError(invalidInputException, HttpStatus.BAD_REQUEST, exception.getConstraintViolations());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
@@ -41,6 +40,17 @@ public class RestControllerExceptionHandler {
 
         InvalidInputException invalidInputException = new InvalidInputException(exception.getMessage(), exception);
         return problemFactory.createCustomError(invalidInputException, HttpStatus.BAD_REQUEST, fieldErrors);
+    }
 
+    @ExceptionHandler({CustomBusinessException.class, InvalidInputException.class})
+    public <T extends ICustomException> ResponseEntity<CustomProblem> handleBadRequest(
+            T exception) {
+        return problemFactory.createCustomError(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({PikachuNotFoundException.class})
+    public <T extends ICustomException> ResponseEntity<CustomProblem> handleNotFound(
+            T exception) {
+        return problemFactory.createCustomError(exception, HttpStatus.NOT_FOUND);
     }
 }

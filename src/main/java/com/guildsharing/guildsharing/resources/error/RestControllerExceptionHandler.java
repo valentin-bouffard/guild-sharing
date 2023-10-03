@@ -29,15 +29,18 @@ public class RestControllerExceptionHandler {
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Problem> handleInternalServerError(
             ConstraintViolationException exception) {
-        InvalidInputException invalidInputException = new InvalidInputException("Invalid input exception", exception);
+        InvalidInputException invalidInputException = new InvalidInputException("Invalid input exception", "details", exception);
        return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<Problem> handleInternalServerError(
+    public ResponseEntity<CustomProblem> handleInternalServerError(
             MethodArgumentNotValidException exception) {
-        InvalidInputException invalidInputException = new InvalidInputException("Invalid input exception", exception);
-        return problemFactory.createError(invalidInputException, HttpStatus.BAD_REQUEST);
-    }
+        BindingResult result = exception.getBindingResult();
+        List<FieldError> fieldErrors = result.getFieldErrors();
 
+        InvalidInputException invalidInputException = new InvalidInputException("Invalid input exception", "details", exception);
+        return problemFactory.createCustomError(invalidInputException, HttpStatus.BAD_REQUEST, fieldErrors);
+
+    }
 }
